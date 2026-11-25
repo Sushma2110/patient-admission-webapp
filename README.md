@@ -1,105 +1,200 @@
 # CareFlow – Patient Admission Management App
 
-A responsive patient admission dashboard built for the DScribe Software Engineer Intern – Round 1 task.
+A responsive Patient Admission Management application developed as part of the **DScribe Software Engineer Intern – Round 1 Assignment**.
 
-## Tech stack
-- **Frontend:** React.js + Vite
-- **Backend:** Python + FastAPI
-- **Database:** SQLite for local development; PostgreSQL recommended for deployment
-- **ORM / validation:** SQLAlchemy + Pydantic
+The application helps manage patient admission records, including adding, viewing, editing, searching, filtering, and discharging patients.
+
+## Live Application
+
+- **Frontend:** https://idyllic-cannoli-6c802f.netlify.app/
+- **Backend API:** https://dscribe-patient-api-ez8l.onrender.com
+- **API Documentation:** https://dscribe-patient-api-ez8l.onrender.com/docs
+- **GitHub Repository:** https://github.com/Sushma2110/patient-admission-webapp
+
+## Technology Stack
+
+| Component | Technology |
+|---|---|
+| Frontend | React.js, Vite |
+| Backend | Python, FastAPI |
+| Database | PostgreSQL (production), SQLite (local development) |
+| ORM | SQLAlchemy |
+| Validation | Pydantic |
+| Frontend Hosting | Netlify |
+| Backend Hosting | Render |
 
 ## Features
-- Add, list, edit and delete patient records
-- Search by patient name
-- Filter by ward, department and doctor
-- Mark an admitted patient as discharged
-- Frontend and backend validation
-- Responsive desktop, tablet and mobile layout
-- Persistent database storage
 
-## Patient dropdown values
-The starter dropdown values are defined in `backend/main.py` (`GENDERS`, `WARDS`, `DEPARTMENTS`, `DOCTORS`). Update these lists if DScribe expects a specific hospital list.
+- Add new patient admission records.
+- View all registered patients.
+- Edit existing patient details.
+- Delete patient records with confirmation.
+- Mark patients as discharged.
+- Search patients by name.
+- Filter patients by ward, department, and doctor.
+- Responsive user interface for desktop, tablet, and mobile.
+- Frontend and backend input validation.
+- Persistent database storage.
 
-## Run locally
+## Patient Information Fields
 
-### 1. Backend
+- Patient Name
+- Age
+- Gender
+- Ward
+- Department
+- Doctor
+- Admission Date
+- Admission Status (Admitted / Discharged)
+
+## Validation Rules
+
+- Patient name is required and accepts letters and spaces only.
+- Age must be between 0 and 120.
+- Gender, ward, department, and doctor must be selected from the available options.
+- Admission date is required and cannot be a future date.
+- Backend validation rejects invalid data with appropriate error messages.
+
+## Application Screenshots
+
+### Dashboard
+
+![Dashboard](screenshots/dashboard.png)
+
+### Add Patient
+
+![Add Patient](screenshots/add-patient.png)
+
+### Patient List
+
+![Patient List](screenshots/patient-list.png)
+
+### Edit Patient
+
+![Edit Patient](screenshots/edit-patient.png)
+
+## API Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/options` | Retrieve dropdown options |
+| GET | `/api/patients` | Retrieve, search, and filter patients |
+| POST | `/api/patients` | Add a patient |
+| PUT | `/api/patients/{id}` | Update patient details |
+| PATCH | `/api/patients/{id}/discharge` | Discharge a patient |
+| DELETE | `/api/patients/{id}` | Delete a patient |
+
+## Run Locally
+
+### Prerequisites
+
+- Python 3.10 or above
+- Node.js and npm
+- Git
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/Sushma2110/patient-admission-webapp.git
+cd patient-admission-webapp
+```
+
+### 2. Backend Setup
+
 ```bash
 cd backend
 python -m venv venv
-# Windows:
+```
+
+Activate the virtual environment:
+
+**Windows:**
+```powershell
 venv\Scripts\activate
-# macOS/Linux:
+```
+
+**macOS/Linux:**
+```bash
 source venv/bin/activate
+```
+
+Install dependencies:
+
+```bash
 pip install -r requirements.txt
+```
+
+Start the backend:
+
+```bash
 uvicorn main:app --reload
 ```
-Backend: http://localhost:8000  
-Interactive API docs: http://localhost:8000/docs
 
-SQLite database file `patients.db` is created automatically in the backend folder and retains data across application/server restarts.
+Backend URL: http://localhost:8000
 
-### 2. Frontend
+API Documentation: http://localhost:8000/docs
+
+### 3. Frontend Setup
+
 Open a second terminal:
+
 ```bash
 cd frontend
 npm install
 ```
-Create `frontend/.env` from `.env.example`:
+
+Create a `.env` file inside the frontend folder:
+
 ```env
 VITE_API_URL=http://localhost:8000
 ```
-Start React:
+
+Start the frontend:
+
 ```bash
 npm run dev
 ```
-Frontend: http://localhost:5173
 
-## Deployment notes
+Frontend URL: http://localhost:5173
 
-For a live submission, deploy the backend and frontend separately and use a managed PostgreSQL database so records persist across redeployments.
+## Deployment
 
-### Backend (Render)
-1. Create a PostgreSQL database (Render PostgreSQL or Neon) and copy its connection URL.
-2. Create a new **Web Service** from this GitHub repository.
-3. Set the service root directory to `backend`.
-4. Build command: `pip install -r requirements.txt`
-5. Start command: `uvicorn main:app --host 0.0.0.0 --port $PORT`
-6. Add environment variables:
-   - `DATABASE_URL` = PostgreSQL connection URL
-   - `FRONTEND_ORIGIN` = deployed frontend URL (for example `https://your-app.vercel.app`)
-7. Deploy and test `https://YOUR-BACKEND.onrender.com/docs`.
+The application is deployed using separate frontend and backend hosting services.
 
-### Frontend (Vercel)
-1. Import the same GitHub repository into Vercel.
-2. Set root directory to `frontend`.
-3. Framework preset: Vite.
-4. Add environment variable `VITE_API_URL` = deployed backend URL, without a trailing slash.
-5. Deploy and test all CRUD operations.
+### Frontend – Netlify
 
-> Important: A local SQLite file is suitable for development. For a hosted app, use PostgreSQL with a persistent managed database. Do not commit `.env` files, database passwords, or secret keys.
+- Hosting platform: Netlify
+- Live URL: https://idyllic-cannoli-6c802f.netlify.app/
 
-## Validation rules
-- Name is required and accepts letters and spaces only.
-- Age is required and must be between 0 and 120.
-- Gender, ward, department and doctor must match the allowed dropdown lists.
-- Admission date is required and cannot be in the future.
-- Backend rejects invalid payloads with clear validation messages.
+### Backend – Render
 
-## API endpoints
-| Method | Endpoint | Purpose |
-|---|---|---|
-| GET | `/api/options` | Dropdown options |
-| GET | `/api/patients` | List/search/filter patients |
-| POST | `/api/patients` | Add patient |
-| PUT | `/api/patients/{id}` | Edit patient |
-| PATCH | `/api/patients/{id}/discharge` | Mark discharged |
-| DELETE | `/api/patients/{id}` | Delete patient |
+- Hosting platform: Render
+- Framework: FastAPI
+- Live API: https://dscribe-patient-api-ez8l.onrender.com
+- API documentation: https://dscribe-patient-api-ez8l.onrender.com/docs
 
-## Before submission
-- [ ] Run the backend and frontend locally.
-- [ ] Test add, list, search, all filters, edit, discharge and delete.
-- [ ] Test invalid name, age above 120 and future admission date.
-- [ ] Deploy backend and frontend and test the live URL.
-- [ ] Add screenshots to this README (create a `screenshots/` folder).
-- [ ] Push source code to a **public** GitHub repository.
-- [ ] Email both repository and live links to the addresses in the task PDF, with your full name in the subject.
+### Database – PostgreSQL
+
+- Hosted PostgreSQL database configured for production.
+- SQLite is used for local development.
+
+### Environment Variables
+
+**Backend:**
+- `DATABASE_URL` – PostgreSQL connection URL.
+- `FRONTEND_ORIGIN` – deployed frontend origin.
+
+**Frontend:**
+- `VITE_API_URL` – backend API base URL.
+
+Sensitive credentials and environment files are not included in the public repository.
+
+## Assignment Details
+
+**Position:** Software Engineer Intern – DScribe
+
+**Round:** Round 1 – Patient Admission Management App
+
+- **GitHub Repository:** https://github.com/Sushma2110/patient-admission-webapp
+- **Live Application:** https://idyllic-cannoli-6c802f.netlify.app/
+- **Backend API Documentation:** https://dscribe-patient-api-ez8l.onrender.com/docs

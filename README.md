@@ -58,20 +58,16 @@ The application helps manage patient admission records, including adding, viewin
 ## Application Screenshots
 
 ### Dashboard
-
 ![Dashboard](screenshots/dashboard.png)
 
 ### Add Patient
-
-![Add Patient](screenshots/add-patient.png)
+![Add Patient](screenshots/addpatients.png)
 
 ### Patient List
-
-![Patient List](screenshots/patient-list.png)
+![Patient List](screenshots/patientslist.png)
 
 ### Edit Patient
-
-![Edit Patient](screenshots/edit-patient.png)
+![Edit Patient](screenshots/editpatients.png)
 
 ## API Endpoints
 
